@@ -50,7 +50,7 @@ SYSTEM(ecs::SystemOrder::UI) exit_menu_button(bool isWinner, int killsCount, Sco
     {
       ecs::destroy_scene();
       ecs::send_event<StartMenuEvent>(StartMenuEvent());
-      sb.curentLevel ++;
+      sb.curentLevel++;
       sb.kills.push_back(killsCount);
     }
     ImGui::End();

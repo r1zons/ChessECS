@@ -8,6 +8,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   int targetCount = 100 * (sb.curentLevel + 1);
   float areaRadius = 25.f;
   float minSize = 0.5f, maxSize = 1.5f;
+  
   for (int i = 0; i < targetCount; i++)
   {
     ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, bool, ecs::Tag>(
@@ -22,7 +23,8 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
       {"target", {}}
     );
   }
-  ecs::create_entity<Sprite, Transform2D, vec2, vec4, int, bool, ecs::Tag>(
+
+  ecs::create_entity<Sprite, Transform2D, vec2, vec4, int, bool, int, int, ecs::Tag>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(0.f), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -30,6 +32,8 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"color", {1, 1, 1, 1}},
     {"killsCount", 0},
     {"isWinner", false},
+    {"maxHP", 100},
+    {"curHP", 100},
     {"mainHero", {}}
   );
 
