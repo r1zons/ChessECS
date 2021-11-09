@@ -44,6 +44,7 @@
 21337	27192	6581903953543968	Chess/CMakeFiles/Game.dir/Sources/core_logic.inl.cpp.obj	98044e495a5617a8
 27192	30714	6581903988649275	Chess/CMakeFiles/Game.dir/Sources/kills_statistic.inl.cpp.obj	59deca60f46a86c7
 23636	29907	6581903981173433	Chess/CMakeFiles/Game.dir/Sources/init_menu.inl.cpp.obj	7db4e9326aafa7f7
-21917	25964	6581903941800516	Chess/CMakeFiles/Game.dir/Sources/init_game.inl.cpp.obj	524695c8b0217d38
-40482	43103	6581904108481601	Application.exe	efcd358147198099
-18	3548	6581907046252082	Application.exe	efcd358147198099
+10	2956	6581962682293439	Chess/CMakeFiles/Game.dir/Sources/init_game.inl.cpp.obj	524695c8b0217d38
+2956	5480	6581962702450177	Application.exe	efcd358147198099
+10	4325	6581967929533565	Chess/CMakeFiles/Game.dir/Sources/init_menu.inl.cpp.obj	7db4e9326aafa7f7
+4326	6827	6581967949751182	Application.exe	efcd358147198099
