@@ -1,2 +1,1 @@
-# ChessECS
-Axyetb He Bctatb
+# CHESS_ECS
