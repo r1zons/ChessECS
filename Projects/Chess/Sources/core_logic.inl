@@ -96,23 +96,26 @@ SYSTEM(ecs::SystemOrder::NO_ORDER, ecs::Tag mainHero) move_hero(
   float dt = Time::delta_time();
   float sgn_x  = sign(velocity[0]), sgn_y = sign(velocity[1]);
   float accel_abs = 5.0, accel_dec = 1.0;
-
-  vec2 accel = vec2(0,0);
-  accel = glm::rotate(
+  //вичисляет ускорение с клавиатуры 
+  vec2 accel = glm::rotate(
      vec2(Input::get_key(SDLK_w, 0.0) - Input::get_key(SDLK_s, 0.0),
           Input::get_key(SDLK_a, 0.0) - Input::get_key(SDLK_d, 0.0)),
       -transform.rotation);
   
 
-  //нормируем ускорени
+
+  //елси не нулевое то разгоняемся
   if (sqrt(accel[0] * accel[0] + accel[1] * accel[1]) > 0.0001){
     accel = accel / sqrt(accel[0] * accel[0] + accel[1] * accel[1]);
     accel *= accel_abs;
     velocity += accel * dt;
-  } else if (sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]) > 0.0001) {
+  }
+  //иначе если не нулевая скорость тормозим
+  else if (sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]) > 0.0001) {
     accel = (-velocity) / sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
     accel *= accel_dec;
     velocity += accel * dt;
+    //проверяем что не летим в другую сторону
     if (abs(sign(velocity[0]) - sgn_x) > 0.0001){
       velocity[0] = 0;
     }
