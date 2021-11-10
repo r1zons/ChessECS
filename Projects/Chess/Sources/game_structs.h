@@ -7,6 +7,8 @@ struct StartGameEvent{};
 
 struct KillTargetEvent{};
 
+struct ColisionEvent{};
+
 constexpr int FigureCount = 6;
 constexpr int AsteroidsCount = 4;
 struct SpriteFactory : ecs::Singleton

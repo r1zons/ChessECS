@@ -43,23 +43,27 @@ void destroy_old_bullets_func()
 }
 
 
-void move_hero_func();
+void get_accel_from_keyboard_func();
 
-ecs::SystemDescription move_hero_descr("move_hero", {
+ecs::SystemDescription get_accel_from_keyboard_descr("get_accel_from_keyboard", {
   {ecs::get_type_description<Transform2D>("transform"), false},
-  {ecs::get_type_description<vec2>("velocity"), false},
+  {ecs::get_type_description<vec2>("accel"), false},
+  {ecs::get_type_description<float>("linearAccel"), false},
+  {ecs::get_type_description<float>("strafeAccel"), false},
   {ecs::get_type_description<bool>("isWinner"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
-}, move_hero_func, ecs::SystemOrder::NO_ORDER, (uint)(ecs::SystemTag::Game));
+}, get_accel_from_keyboard_func, ecs::SystemOrder::NO_ORDER, (uint)(ecs::SystemTag::Game));
 
-void move_hero_func()
+void get_accel_from_keyboard_func()
 {
-  for (ecs::QueryIterator begin = move_hero_descr.begin(), end = move_hero_descr.end(); begin != end; ++begin)
+  for (ecs::QueryIterator begin = get_accel_from_keyboard_descr.begin(), end = get_accel_from_keyboard_descr.end(); begin != end; ++begin)
   {
-    move_hero(
+    get_accel_from_keyboard(
       *begin.get_component<Transform2D>(0),
       *begin.get_component<vec2>(1),
-      *begin.get_component<bool>(2)
+      *begin.get_component<float>(2),
+      *begin.get_component<float>(3),
+      *begin.get_component<bool>(4)
     );
   }
 }

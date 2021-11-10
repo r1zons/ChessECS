@@ -11,7 +11,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   
   for (int i = 0; i < targetCount; i++)
   {
-    ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, bool, ecs::Tag>(
+    ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, bool, float, ecs::Tag>(
       {"sprite", sf.asteroids[rand_int(AsteroidsCount)]},
       {"transform", Transform2D(rand_vec2() * areaRadius,
                                 vec2(rand_float(minSize, maxSize)),
@@ -20,21 +20,27 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
       {"rotationVelocity", rand_float()*PI},
       {"color", vec4(rand_vec3(0.f, 1.f), 1)},
       {"destroyed", false},
+      {"mass", 10.0},
       {"target", {}}
     );
   }
 
-  ecs::create_entity<Sprite, Transform2D, vec2, vec4, int, bool, int, int, ecs::Tag>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, int, int, ecs::Tag, float, float, float, float>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(0.f), vec2(1.f))},
     {"velocity", vec2(0.f)},
+    {"accel", vec2(0.0, 0.0)},
     // {"color", vec4(1, 0.84f, 0, 1)},
     {"color", {1, 1, 1, 1}},
     {"killsCount", 0},
     {"isWinner", false},
     {"maxHP", 100},
     {"curHP", 100},
-    {"mainHero", {}}
+    {"mainHero", {}},
+    {"linearAccel", 35.0},
+    {"strafeAccel", 20.0},
+    {"inertiaCancel", 50.0},
+    {"mass", 5.0}
   );
 
 }
