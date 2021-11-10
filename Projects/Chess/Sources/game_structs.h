@@ -15,7 +15,7 @@ struct SpriteFactory : ecs::Singleton
 {
   Sprite figures[FigureCount];
   Sprite asteroids[AsteroidsCount];
-  Sprite arrow, bullet, ship6, shot6_1;
+  Sprite arrow, bullet, ship6, shot6_1, hp_bar;
 };
 
 struct ScoreBoard : ecs::Singleton

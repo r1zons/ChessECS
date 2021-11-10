@@ -2,7 +2,6 @@
 #include <Engine/transform2d.h>
 #include "game_structs.h"
 
-
 EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBoard &sb)
 {
   int targetCount = 100 * (sb.curentLevel + 1);
@@ -49,6 +48,16 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"inertiaCancel", 50.0},
     {"mass", 5.0}
   );
+
+  ecs::create_entity<Sprite, Transform2D, vec4, int, ecs::Tag>(
+    {"sprite", sf.hp_bar},
+    {"transform", Transform2D(vec2(0, 1.3), vec2(0.8, 0.1))},
+    // {"color", vec4(1, 0.84f, 0, 1)},
+    {"color", {1, 0, 0, 1}},
+    {"hp", 100},
+    {"redHPBar", {}}
+  );
+
   /*
    ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, int, ecs::Tag, ecs::Tag, ecs::Tag, float, float, float, float, bool>(
     {"sprite", sf.ship6},
