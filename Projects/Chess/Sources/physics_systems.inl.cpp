@@ -27,7 +27,7 @@ ecs::QueryDescription check_all_colisions_descr("check_all_colisions", {
   {ecs::get_type_description<vec2>("velocity"), false},
   {ecs::get_type_description<bool>("destroyed"), false},
   {ecs::get_type_description<float>("mass"), false},
-  {ecs::get_type_description<ecs::Tag>("target"), false}
+  {ecs::get_type_description<ecs::Tag>("colidable"), false}
 });
 
 template<typename Callable>
@@ -92,7 +92,7 @@ ecs::SystemDescription hero_collision_detection_descr("hero_collision_detection"
   {ecs::get_type_description<Transform2D>("transform"), false},
   {ecs::get_type_description<vec2>("velocity"), false},
   {ecs::get_type_description<float>("mass"), false},
-  {ecs::get_type_description<ecs::Tag>("mainHero"), false}
+  {ecs::get_type_description<ecs::Tag>("fullPhysics"), false}
 }, hero_collision_detection_func, ecs::SystemOrder::LOGIC, (uint)(ecs::SystemTag::Game));
 
 void hero_collision_detection_func()

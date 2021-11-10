@@ -53,7 +53,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
 template<typename Callable> void check_all_colisions(Callable);
 
 
-SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag mainHero) hero_collision_detection(
+SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag fullPhysics) hero_collision_detection(
   const Transform2D &transform,
   vec2 &velocity,
   float mass)
@@ -62,11 +62,11 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag mainHero) hero_collision_detection(
   float heroRadius = transform.scale.x * 0.5f;
   vec2 vel = velocity;
   float heroMass = mass;
-  QUERY(ecs::Tag target) check_all_colisions([&](
+  QUERY(ecs::Tag colidable) check_all_colisions([&](
     const Transform2D &transform,
     vec2 &velocity,
     bool &destroyed,
-    float mass
+    const float mass
   )
   {
     if (!destroyed)
@@ -95,7 +95,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag mainHero) hero_collision_detection(
 SYSTEM(ecs::SystemOrder::LOGIC - 1, ecs::Tag mainHero) update_hero_velocity(
   vec2 &velocity,
   vec2 &accel,
-  float inertiaCancel)
+  const float inertiaCancel)
 {
   float dt = Time::delta_time();
   float sgn_x  = sign(velocity[0]), sgn_y = sign(velocity[1]);
