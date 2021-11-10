@@ -7,20 +7,24 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
 {
   int targetCount = 100 * (sb.curentLevel + 1);
   float areaRadius = 25.f;
+  float safeZone = 5.f;
+  float density = 5.f;
   float minSize = 0.5f, maxSize = 1.5f;
   
   for (int i = 0; i < targetCount; i++)
   {
+    Transform2D tr = Transform2D(normalize(rand_vec2()) * rand_float(safeZone, areaRadius),
+                                vec2(rand_float(minSize, maxSize)),
+                                rand_float() * PITWO);
+    float m = tr.scale[0] * tr.scale[1] * density;
     ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, bool, float, ecs::Tag>(
       {"sprite", sf.asteroids[rand_int(AsteroidsCount)]},
-      {"transform", Transform2D(rand_vec2() * areaRadius,
-                                vec2(rand_float(minSize, maxSize)),
-                                rand_float() * PITWO)},
+      {"transform", tr},
       {"velocity", rand_vec2()},
       {"rotationVelocity", rand_float()*PI},
       {"color", vec4(rand_vec3(0.f, 1.f), 1)},
       {"destroyed", false},
-      {"mass", 10.0},
+      {"mass", m},
       {"target", {}}
     );
   }
