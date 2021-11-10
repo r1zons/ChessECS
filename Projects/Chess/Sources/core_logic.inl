@@ -86,40 +86,20 @@ SYSTEM(ecs::SystemOrder::LOGIC+1, ecs::Tag bullet) destroy_old_bullets(
 }
 
 
-SYSTEM(ecs::SystemOrder::NO_ORDER, ecs::Tag mainHero) move_hero(
+SYSTEM(ecs::SystemOrder::NO_ORDER, ecs::Tag mainHero) get_accel_from_keyboard(
   const Transform2D &transform,
-  vec2 &velocity,
+  vec2 &accel,
+  float linearAccel,
+  float strafeAccel,
   bool isWinner)
 {
   if (isWinner)
     return;
-  float dt = Time::delta_time();
-  float sgn_x  = sign(velocity[0]), sgn_y = sign(velocity[1]);
-  float accel_abs = 5.0, accel_dec = 1.0;
-
-  vec2 accel = vec2(0,0);
+  //вичисляет ускорение с клавиатуры 
   accel = glm::rotate(
-     vec2(Input::get_key(SDLK_w, 0.0) - Input::get_key(SDLK_s, 0.0),
-          Input::get_key(SDLK_a, 0.0) - Input::get_key(SDLK_d, 0.0)),
+     vec2((Input::get_key(SDLK_w, 0.0) - Input::get_key(SDLK_s, 0.0)) * linearAccel,
+          (Input::get_key(SDLK_a, 0.0) - Input::get_key(SDLK_d, 0.0)) * strafeAccel),
       -transform.rotation);
-  
-
-  //нормируем ускорени
-  if (sqrt(accel[0] * accel[0] + accel[1] * accel[1]) > 0.0001){
-    accel = accel / sqrt(accel[0] * accel[0] + accel[1] * accel[1]);
-    accel *= accel_abs;
-    velocity += accel * dt;
-  } else if (sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]) > 0.0001) {
-    accel = (-velocity) / sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
-    accel *= accel_dec;
-    velocity += accel * dt;
-    if (abs(sign(velocity[0]) - sgn_x) > 0.0001){
-      velocity[0] = 0;
-    }
-    if (abs(sign(velocity[1]) - sgn_y) > 0.0001){
-      velocity[1] = 0;
-    }
-  }
 }
 
 
