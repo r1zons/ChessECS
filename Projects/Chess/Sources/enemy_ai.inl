@@ -23,10 +23,16 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) path_finder(
     pos = transform.position;
     angle = transform.rotation;
   });
-  vec2 dir = vec2(cos(angle), sin(angle));
+  vec2 dir = vec2(cos(angle), -sin(angle));
+  debug_log("dir: %f %f", dir[0], dir[1]);
   dir = ((dir + vel) / -2.0f) * 10.0f;
+  debug_log("target place: %f %f", dir[0], dir[1]);
   vec2 target_point = dir + pos;
-  velocity = normalize(target_point - transform.position);
-  transform.rotation = acos(velocity[0] * 1 + velocity[1] * 0);
-  velocity *= 5.0f;
+  if (length(target_point - transform.position) > 1.0f | length(pos - transform.position) < 10.0f){
+    velocity = normalize(target_point - transform.position);
+    transform.rotation = acos(velocity[0] * .0f + velocity[1] * 1.0f) * sign(velocity[0]);
+    velocity *= 5.0f;
+  } else {
+    velocity = vec2(0.0f, 0.0f);
+  }  
 }
