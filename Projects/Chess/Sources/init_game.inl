@@ -68,8 +68,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"greenHPBar", {}}
   );
 
-  /*
-   ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, int, ecs::Tag, ecs::Tag, ecs::Tag, float, float, float, float, bool>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, int, ecs::Tag, ecs::Tag, ecs::Tag, float, float, float, float, bool>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(25,0), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -87,5 +86,4 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"mass", 5.0},
     {"destroyed", false}
   );
-  */
 }

@@ -28,7 +28,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) path_finder(
   dir = ((dir + vel) / -2.0f) * 10.0f;
   debug_log("target place: %f %f", dir[0], dir[1]);
   vec2 target_point = dir + pos;
-  if (length(target_point - transform.position) > 1.0f | length(pos - transform.position) < 10.0f){
+  if (length(target_point - transform.position) > 1.0f & length(pos - transform.position) > 10.0f){
     velocity = normalize(target_point - transform.position);
     transform.rotation = acos(velocity[0] * .0f + velocity[1] * 1.0f) * sign(velocity[0]);
     velocity *= 5.0f;
