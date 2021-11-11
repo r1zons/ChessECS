@@ -44,9 +44,10 @@ EVENT(ecs::Tag mainHero) update_green_hp_bar_points(
   const float maxHP) 
 { 
   debug_log("%f %f", event.damage, curHP);
+  float oldHP = curHP;
   curHP = (curHP - event.damage) > 0.f ? curHP - event.damage : 0.f;
   QUERY(ecs::Tag greenHPBar) update_green_hp_bar_length([&](Transform2D &transform)
   {
-    transform.scale[0] = transform.scale[0] * (curHP / maxHP); 
+    transform.scale[0] = transform.scale[0] * (maxHP / oldHP) * (curHP / maxHP); 
   });
 }

@@ -76,7 +76,8 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag mainHero) hero_collision_detection(
       if (dist < targetRadius + heroRadius)
       {
         struct ColisionEvent event = ColisionEvent();
-        event.damage = mass;
+        //event.damage = mass;
+        event.damage = mass * 0.5;
         ecs::send_event<ColisionEvent>(event);
         float x_imp = heroMass * vel[0] + mass * velocity[0];
         float y_imp = heroMass * vel[1] + mass * velocity[1];
