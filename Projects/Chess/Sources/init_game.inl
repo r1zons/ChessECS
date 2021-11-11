@@ -10,8 +10,8 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   float safeZone = 5.f;
   float density = 20.f;
   float minSize = 0.5f, maxSize = 1.5f;
-  float mainHeroMaxHP = 100;
-  float mainHeroStartHP = 80;
+  float mainHeroMaxHP = 100.0f;
+  float mainHeroStartHP = 80.0f;
   float ratioForGreenHP = mainHeroStartHP / mainHeroMaxHP; 
 
 

@@ -35,6 +35,23 @@ void update_green_hp_bar_position(Callable lambda)
 }
 
 
+ecs::QueryDescription update_green_hp_bar_length_descr("update_green_hp_bar_length", {
+  {ecs::get_type_description<Transform2D>("transform"), false},
+  {ecs::get_type_description<ecs::Tag>("greenHPBar"), false}
+});
+
+template<typename Callable>
+void update_green_hp_bar_length(Callable lambda)
+{
+  for (ecs::QueryIterator begin = update_green_hp_bar_length_descr.begin(), end = update_green_hp_bar_length_descr.end(); begin != end; ++begin)
+  {
+    lambda(
+      *begin.get_component<Transform2D>(0)
+    );
+  }
+}
+
+
 void update_red_hp_bar_func();
 
 ecs::SystemDescription update_red_hp_bar_descr("update_red_hp_bar", {
@@ -71,15 +88,15 @@ void update_green_hp_bar_func()
 }
 
 
-void update_green_hp_bar_points_handler(const reduceMainHeroHP &event);
+void update_green_hp_bar_points_handler(const ColisionEvent &event);
 
-ecs::EventDescription<reduceMainHeroHP> update_green_hp_bar_points_descr("update_green_hp_bar_points", {
+ecs::EventDescription<ColisionEvent> update_green_hp_bar_points_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
-  {ecs::get_type_description<float>("hit"), false},
-  {ecs::get_type_description<ecs::Tag>("greenHPBar"), false}
+  {ecs::get_type_description<float>("maxHP"), false},
+  {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_green_hp_bar_points_handler, (uint)(ecs::SystemTag::Game));
 
-void update_green_hp_bar_points_handler(const reduceMainHeroHP &event)
+void update_green_hp_bar_points_handler(const ColisionEvent &event)
 {
   for (ecs::QueryIterator begin = update_green_hp_bar_points_descr.begin(), end = update_green_hp_bar_points_descr.end(); begin != end; ++begin)
   {
@@ -92,15 +109,15 @@ void update_green_hp_bar_points_handler(const reduceMainHeroHP &event)
 }
 
 
-void update_green_hp_bar_points_singl_handler(const reduceMainHeroHP &event, ecs::QueryIterator &begin);
+void update_green_hp_bar_points_singl_handler(const ColisionEvent &event, ecs::QueryIterator &begin);
 
-ecs::SingleEventDescription<reduceMainHeroHP> update_green_hp_bar_points_singl_descr("update_green_hp_bar_points", {
+ecs::SingleEventDescription<ColisionEvent> update_green_hp_bar_points_singl_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
-  {ecs::get_type_description<float>("hit"), false},
-  {ecs::get_type_description<ecs::Tag>("greenHPBar"), false}
+  {ecs::get_type_description<float>("maxHP"), false},
+  {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_green_hp_bar_points_singl_handler, (uint)(ecs::SystemTag::Game));
 
-void update_green_hp_bar_points_singl_handler(const reduceMainHeroHP &event, ecs::QueryIterator &begin)
+void update_green_hp_bar_points_singl_handler(const ColisionEvent &event, ecs::QueryIterator &begin)
 {
   update_green_hp_bar_points(
     event,

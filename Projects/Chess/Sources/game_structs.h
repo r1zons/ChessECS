@@ -9,7 +9,9 @@ struct KillTargetEvent{};
 
 struct reduceMainHeroHP{};
 
-struct ColisionEvent{};
+struct ColisionEvent{
+  float damage;
+};
 
 constexpr int FigureCount = 6;
 constexpr int AsteroidsCount = 4;

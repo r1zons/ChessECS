@@ -52,7 +52,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
 template<typename Callable> void check_all_colisions(Callable);
 
 
-SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag fullPhysics) hero_collision_detection(
+SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag mainHero) hero_collision_detection(
   const Transform2D &transform,
   vec2 &velocity,
   float mass)
@@ -75,7 +75,9 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag fullPhysics) hero_collision_detection(
       float dist = length(targetPosition - heroPosition);
       if (dist < targetRadius + heroRadius)
       {
-        ecs::send_event<ColisionEvent>(ColisionEvent());
+        struct ColisionEvent event = ColisionEvent();
+        event.damage = mass;
+        ecs::send_event<ColisionEvent>(event);
         float x_imp = heroMass * vel[0] + mass * velocity[0];
         float y_imp = heroMass * vel[1] + mass * velocity[1];
         //вычисляем новую скорость персонажа

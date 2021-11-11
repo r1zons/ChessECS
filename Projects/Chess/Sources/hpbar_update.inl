@@ -30,14 +30,23 @@ SYSTEM(ecs::SystemOrder::RENDER, ecs::Tag mainHero) update_green_hp_bar(
 
   QUERY(ecs::Tag greenHPBar) update_green_hp_bar_position([&](Transform2D &transform)
   {
-    transform.position = {heroPosition.x - 1.1, heroPosition.y + 1.3};
+    transform.position = {heroPosition.x - 1.1, heroPosition.y + 1.3}; 
   });
 }
 
-EVENT(ecs::Tag greenHPBar) update_green_hp_bar_points(
-  const reduceMainHeroHP&,
+
+template<typename Callable> void update_green_hp_bar_length(Callable);
+
+
+EVENT(ecs::Tag mainHero) update_green_hp_bar_points(
+  const ColisionEvent &event,
   float &curHP,
-  float hit) 
+  const float maxHP) 
 { 
-  curHP = (curHP - hit) > 0.f ? curHP - hit : 0.f;
+  debug_log("%f %f", event.damage, curHP);
+  curHP = (curHP - event.damage) > 0.f ? curHP - event.damage : 0.f;
+  QUERY(ecs::Tag greenHPBar) update_green_hp_bar_length([&](Transform2D &transform)
+  {
+    transform.scale[0] = transform.scale[0] * (curHP / maxHP); 
+  });
 }
