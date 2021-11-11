@@ -113,6 +113,7 @@ void update_hero_velocity_func();
 ecs::SystemDescription update_hero_velocity_descr("update_hero_velocity", {
   {ecs::get_type_description<vec2>("velocity"), false},
   {ecs::get_type_description<vec2>("accel"), false},
+  {ecs::get_type_description<float>("speedLimit"), false},
   {ecs::get_type_description<float>("inertiaCancel"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_hero_velocity_func, ecs::SystemOrder::LOGIC - 1, (uint)(ecs::SystemTag::Game));
@@ -124,7 +125,8 @@ void update_hero_velocity_func()
     update_hero_velocity(
       *begin.get_component<vec2>(0),
       *begin.get_component<vec2>(1),
-      *begin.get_component<float>(2)
+      *begin.get_component<float>(2),
+      *begin.get_component<float>(3)
     );
   }
 }

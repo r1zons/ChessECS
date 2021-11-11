@@ -95,13 +95,14 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag fullPhysics) hero_collision_detection(
 SYSTEM(ecs::SystemOrder::LOGIC - 1, ecs::Tag mainHero) update_hero_velocity(
   vec2 &velocity,
   vec2 &accel,
+  const float speedLimit,
   const float inertiaCancel)
 {
   float dt = Time::delta_time();
   float sgn_x  = sign(velocity[0]), sgn_y = sign(velocity[1]);
 
   //елси не нулевое то разгоняемся
-  if (length(accel) > 0.0001){
+  if (length(accel) > 0.0001 & length(velocity) < speedLimit){
     velocity += accel * dt;
   }
   //иначе если не нулевая скорость тормозим

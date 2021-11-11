@@ -9,7 +9,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   //int targetCount = 5 * (sb.curentLevel + 1);
   float areaRadius = 25.f;
   float safeZone = 5.f;
-  float density = 5.f;
+  float density = 50.f;
   float minSize = 0.5f, maxSize = 1.5f;
   
   for (int i = 0; i < targetCount; i++)
@@ -31,7 +31,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     );
   }
 
-  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, int, int, ecs::Tag, ecs::Tag, float, float, float, float>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, int, int, ecs::Tag, ecs::Tag, float, float, float, float, float>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(0.f), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -47,7 +47,8 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"linearAccel", 35.0},
     {"strafeAccel", 20.0},
     {"inertiaCancel", 50.0},
-    {"mass", 5.0}
+    {"mass", 5.0},
+    {"speedLimit", 50.0f}
   );
   /*
    ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, int, ecs::Tag, ecs::Tag, ecs::Tag, float, float, float, float, bool>(
