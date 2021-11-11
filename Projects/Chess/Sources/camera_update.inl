@@ -21,7 +21,6 @@ SYSTEM(ecs::SystemOrder::RENDER-1, ecs::Tag mainHero) update_camera_pos_before_r
   });
 }
 
-
 EVENT(mat3 cameraProjection) change_zoom(
   const MouseWheelEvent &event,
   Transform2D &transform,

@@ -50,6 +50,7 @@ void create_bullet(vec2 position, float rotation, float bulletVelocity, const Sp
     {"bullet", {}}
   );
 }
+
 EVENT(ecs::Tag mainHero) fire_when_mouse_click(
   const MouseClickEvent<MouseButton::LeftButton> &event,
   const WorldRenderer &wr,
@@ -74,6 +75,7 @@ EVENT(ecs::Tag mainHero) circle_attack(
     create_bullet(transform.position, -transform.rotation + angle, 8, sf.shot6_1);
   }
 }
+
 SYSTEM(ecs::SystemOrder::LOGIC+1, ecs::Tag bullet) destroy_old_bullets(
   ecs::EntityId eid,
   float creationTime,

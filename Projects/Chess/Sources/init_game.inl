@@ -51,11 +51,20 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
 
   ecs::create_entity<Sprite, Transform2D, vec4, int, ecs::Tag>(
     {"sprite", sf.hp_bar},
-    {"transform", Transform2D(vec2(0, 1.3), vec2(0.8, 0.1))},
+    {"transform", Transform2D(vec2(0.f), vec2(0.8, 0.1))},
     // {"color", vec4(1, 0.84f, 0, 1)},
     {"color", {1, 0, 0, 1}},
     {"hp", 100},
     {"redHPBar", {}}
+  );
+
+  ecs::create_entity<Sprite, Transform2D, vec4, int, ecs::Tag>(
+    {"sprite", sf.hp_bar},
+    {"transform", Transform2D(vec2(0.f), vec2(0.8, 0.1))},
+    // {"color", vec4(1, 0.84f, 0, 1)},
+    {"color", {0, 1, 0, 1}},
+    {"hp", 100},
+    {"greenHPBar", {}}
   );
 
   /*
