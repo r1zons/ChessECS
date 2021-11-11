@@ -17,10 +17,9 @@ SYSTEM(ecs::SystemOrder::RENDER - 1, ecs::Tag mainHero) update_red_hp_bar(
   
   QUERY(ecs::Tag redHPBar) update_red_hp_bar_position([heroPosition](Transform2D &transform)
   {
-    transform.position = {heroPosition.x, heroPosition.y + 1.3};
+    transform.position = {heroPosition.x - 1.1, heroPosition.y + 1.3};
   });
 }
-
 
 template<typename Callable> void update_green_hp_bar_position(Callable);
 
@@ -31,8 +30,7 @@ SYSTEM(ecs::SystemOrder::RENDER, ecs::Tag mainHero) update_green_hp_bar(
 
   QUERY(ecs::Tag greenHPBar) update_green_hp_bar_position([&](Transform2D &transform)
   {
-    transform.position = {heroPosition.x, heroPosition.y + 1.3};
-    // transform.scale = {0.8 * ratio, transform.scale.y};
+    transform.position = {heroPosition.x - 1.1, heroPosition.y + 1.3};
   });
 }
 

@@ -11,7 +11,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   float density = 5.f;
   float minSize = 0.5f, maxSize = 1.5f;
   float mainHeroMaxHP = 100;
-  float mainHeroStartHP = 40;
+  float mainHeroStartHP = 80;
   float ratioForGreenHP = mainHeroStartHP / mainHeroMaxHP; 
 
 
@@ -55,14 +55,14 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
 
   ecs::create_entity<Sprite, Transform2D, vec4, ecs::Tag>(
     {"sprite", sf.hp_bar},
-    {"transform", Transform2D(vec2(0.f), vec2(0.8, 0.1))},
+    {"transform", Transform2D(vec2(0.f), vec2(2, 0.05))},
     {"color", {1, 0, 0, 1}},
     {"redHPBar", {}}
   );
 
   ecs::create_entity<Sprite, Transform2D, vec4, ecs::Tag>(
     {"sprite", sf.hp_bar},
-    {"transform", Transform2D(vec2(0.f), vec2(0.8 * ratioForGreenHP, 0.1))},
+    {"transform", Transform2D(vec2(0.f), vec2(2 * ratioForGreenHP, 0.05))},
     {"color", {0, 1, 0, 1}},
     {"greenHPBar", {}}
   );
