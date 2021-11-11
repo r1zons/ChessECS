@@ -9,9 +9,8 @@
 #include "game_structs.h"
 
 template<typename Callable> void update_red_hp_bar_position(Callable);
-template<typename Callable> void update_green_hp_bar_position(Callable);
 
-SYSTEM(ecs::SystemOrder::RENDER, ecs::Tag mainHero) update_red_hp_bar(
+SYSTEM(ecs::SystemOrder::RENDER - 1, ecs::Tag mainHero) update_red_hp_bar(
   const Transform2D &transform)
 {
   vec2 heroPosition = transform.position;
@@ -22,13 +21,25 @@ SYSTEM(ecs::SystemOrder::RENDER, ecs::Tag mainHero) update_red_hp_bar(
   });
 }
 
+
+template<typename Callable> void update_green_hp_bar_position(Callable);
+
 SYSTEM(ecs::SystemOrder::RENDER, ecs::Tag mainHero) update_green_hp_bar(
   const Transform2D &transform)
 {
   vec2 heroPosition = transform.position;
-  
-  QUERY(ecs::Tag greenHPBar) update_green_hp_bar_position([heroPosition](Transform2D &transform)
+
+  QUERY(ecs::Tag greenHPBar) update_green_hp_bar_position([&](Transform2D &transform)
   {
     transform.position = {heroPosition.x, heroPosition.y + 1.3};
+    // transform.scale = {0.8 * ratio, transform.scale.y};
   });
+}
+
+EVENT(ecs::Tag greenHPBar) update_green_hp_bar_points(
+  const reduceMainHeroHP&,
+  float &curHP,
+  float hit) 
+{ 
+  curHP = (curHP - hit) > 0.f ? curHP - hit : 0.f;
 }

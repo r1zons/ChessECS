@@ -4,13 +4,17 @@
 
 EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBoard &sb)
 {
-  int targetCount = 100 * (sb.curentLevel + 1);
-  //int targetCount = 5 * (sb.curentLevel + 1);
+  // int targetCount = 100 * (sb.curentLevel + 1);
+  int targetCount = 5 * (sb.curentLevel + 1);
   float areaRadius = 25.f;
   float safeZone = 5.f;
   float density = 5.f;
   float minSize = 0.5f, maxSize = 1.5f;
-  
+  float mainHeroMaxHP = 100;
+  float mainHeroStartHP = 40;
+  float ratioForGreenHP = mainHeroStartHP / mainHeroMaxHP; 
+
+
   for (int i = 0; i < targetCount; i++)
   {
     Transform2D tr = Transform2D(normalize(rand_vec2()) * rand_float(safeZone, areaRadius),
@@ -30,7 +34,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     );
   }
 
-  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, int, int, ecs::Tag, ecs::Tag, float, float, float, float>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, float, float, ecs::Tag, ecs::Tag, float, float, float, float>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(0.f), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -39,8 +43,8 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"color", {1, 1, 1, 1}},
     {"killsCount", 0},
     {"isWinner", false},
-    {"maxHP", 100},
-    {"curHP", 100},
+    {"maxHP", mainHeroMaxHP},
+    {"curHP", mainHeroStartHP},
     {"mainHero", {}},
     {"fullPhysics", {}},
     {"linearAccel", 35.0},
@@ -49,21 +53,17 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"mass", 5.0}
   );
 
-  ecs::create_entity<Sprite, Transform2D, vec4, int, ecs::Tag>(
+  ecs::create_entity<Sprite, Transform2D, vec4, ecs::Tag>(
     {"sprite", sf.hp_bar},
     {"transform", Transform2D(vec2(0.f), vec2(0.8, 0.1))},
-    // {"color", vec4(1, 0.84f, 0, 1)},
     {"color", {1, 0, 0, 1}},
-    {"hp", 100},
     {"redHPBar", {}}
   );
 
-  ecs::create_entity<Sprite, Transform2D, vec4, int, ecs::Tag>(
+  ecs::create_entity<Sprite, Transform2D, vec4, ecs::Tag>(
     {"sprite", sf.hp_bar},
-    {"transform", Transform2D(vec2(0.f), vec2(0.8, 0.1))},
-    // {"color", vec4(1, 0.84f, 0, 1)},
+    {"transform", Transform2D(vec2(0.f), vec2(0.8 * ratioForGreenHP, 0.1))},
     {"color", {0, 1, 0, 1}},
-    {"hp", 100},
     {"greenHPBar", {}}
   );
 

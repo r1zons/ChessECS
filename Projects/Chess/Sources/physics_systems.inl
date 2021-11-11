@@ -17,7 +17,6 @@ SYSTEM(ecs::SystemOrder::LOGIC+1) move_all_entity_with_velocity(
 
 template<typename Callable> void gather_all_target_colliders(Callable);
 
-
 SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
   ecs::EntityId eid,
   const Transform2D &transform

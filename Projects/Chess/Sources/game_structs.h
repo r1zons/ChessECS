@@ -7,6 +7,8 @@ struct StartGameEvent{};
 
 struct KillTargetEvent{};
 
+struct reduceMainHeroHP{};
+
 struct ColisionEvent{};
 
 constexpr int FigureCount = 6;
