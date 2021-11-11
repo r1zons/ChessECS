@@ -9,7 +9,7 @@ struct KillTargetEvent{};
 
 struct reduceMainHeroHP{};
 
-struct ColisionEvent{
+struct DamageHero{
   float damage;
 };
 

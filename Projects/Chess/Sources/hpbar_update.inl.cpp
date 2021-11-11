@@ -88,15 +88,15 @@ void update_green_hp_bar_func()
 }
 
 
-void update_green_hp_bar_points_handler(const ColisionEvent &event);
+void update_green_hp_bar_points_handler(const DamageHero &event);
 
-ecs::EventDescription<ColisionEvent> update_green_hp_bar_points_descr("update_green_hp_bar_points", {
+ecs::EventDescription<DamageHero> update_green_hp_bar_points_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
   {ecs::get_type_description<float>("maxHP"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_green_hp_bar_points_handler, (uint)(ecs::SystemTag::Game));
 
-void update_green_hp_bar_points_handler(const ColisionEvent &event)
+void update_green_hp_bar_points_handler(const DamageHero &event)
 {
   for (ecs::QueryIterator begin = update_green_hp_bar_points_descr.begin(), end = update_green_hp_bar_points_descr.end(); begin != end; ++begin)
   {
@@ -109,15 +109,15 @@ void update_green_hp_bar_points_handler(const ColisionEvent &event)
 }
 
 
-void update_green_hp_bar_points_singl_handler(const ColisionEvent &event, ecs::QueryIterator &begin);
+void update_green_hp_bar_points_singl_handler(const DamageHero &event, ecs::QueryIterator &begin);
 
-ecs::SingleEventDescription<ColisionEvent> update_green_hp_bar_points_singl_descr("update_green_hp_bar_points", {
+ecs::SingleEventDescription<DamageHero> update_green_hp_bar_points_singl_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
   {ecs::get_type_description<float>("maxHP"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_green_hp_bar_points_singl_handler, (uint)(ecs::SystemTag::Game));
 
-void update_green_hp_bar_points_singl_handler(const ColisionEvent &event, ecs::QueryIterator &begin)
+void update_green_hp_bar_points_singl_handler(const DamageHero &event, ecs::QueryIterator &begin)
 {
   update_green_hp_bar_points(
     event,

@@ -35,20 +35,34 @@ EVENT(ecs::Tag mainHero) look_at_mouse_position_when_mouse_moves(
   transform.rotation = atan2f(direction.x, direction.y) - PIHALF;
 }
 
-void create_bullet(vec2 position, float rotation, float bulletVelocity, const Sprite &bulletSpite)
+void create_bullet(vec2 position, float rotation, float bulletVelocity, const Sprite &bulletSpite, bool friebdly)
 {
   vec2 velocity = vec2(cos(rotation), sin(rotation));
   constexpr float bulletLifeTime = 2.f;
   float curTime = Time::time();
 
-  ecs::create_entity<Sprite, Transform2D, vec2, float, float, ecs::Tag>(
-    {"sprite", bulletSpite},
-    {"transform", Transform2D(position, vec2(0.5f), -rotation)},
-    {"velocity", velocity * bulletVelocity},
-    {"creationTime", curTime},
-    {"lifeTime", bulletLifeTime},
-    {"bullet", {}}
-  );
+
+  if (friebdly){
+    ecs::create_entity<Sprite, Transform2D, vec2, float, float, ecs::Tag, float>(
+      {"sprite", bulletSpite},
+      {"transform", Transform2D(position, vec2(0.5f), -rotation)},
+      {"velocity", velocity * bulletVelocity},
+      {"creationTime", curTime},
+      {"lifeTime", bulletLifeTime},
+      {"bullet", {}},
+      {"damage", 10.0f}
+    );
+  } else {
+    ecs::create_entity<Sprite, Transform2D, vec2, float, float, ecs::Tag, float>(
+      {"sprite", bulletSpite},
+      {"transform", Transform2D(position, vec2(0.5f), -rotation)},
+      {"velocity", velocity * bulletVelocity},
+      {"creationTime", curTime},
+      {"lifeTime", bulletLifeTime},
+      {"enemy_bullet", {}},
+      {"damage", 10.0f}
+    );
+  }
 }
 
 EVENT(ecs::Tag mainHero) fire_when_mouse_click(
@@ -62,7 +76,7 @@ EVENT(ecs::Tag mainHero) fire_when_mouse_click(
     return;
   vec2 worldPos = wr.screen_to_world(event.x, event.y);
   vec2 direction = worldPos - transform.position;
-  create_bullet(transform.position, atan2f(direction.y, direction.x), 25, sf.shot6_1);
+  create_bullet(transform.position, atan2f(direction.y, direction.x), 25, sf.shot6_1, true);
 }
 
 EVENT(ecs::Tag mainHero) circle_attack(
@@ -72,7 +86,7 @@ EVENT(ecs::Tag mainHero) circle_attack(
 {
   for (float angle = 0; angle < PITWO; angle += PITWO / 6)
   {
-    create_bullet(transform.position, -transform.rotation + angle, 8, sf.shot6_1);
+    create_bullet(transform.position, -transform.rotation + angle, 8, sf.shot6_1, true);
   }
 }
 

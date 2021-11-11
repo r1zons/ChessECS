@@ -19,7 +19,8 @@ template<typename Callable> void gather_all_target_colliders(Callable);
 
 SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
   ecs::EntityId eid,
-  const Transform2D &transform
+  const Transform2D &transform,
+  const float damage
 )
 {
   vec2 bulletPosition = transform.position;
@@ -28,9 +29,9 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
   QUERY(ecs::Tag target) gather_all_target_colliders([&](
     ecs::EntityId eid,
     const Transform2D &transform,
-    bool &destroyed)
+    float &health)
   {
-    if (!destroyed)
+    if (health > 0.0001)
     {
       vec2 targetPosition = transform.position;
       float targetRadius = transform.scale.x * 0.5f;
@@ -38,9 +39,11 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
       if (dist < bulletRadius + targetRadius)
       {
         ecs::send_event<KillTargetEvent>(KillTargetEvent());
-        ecs::destroy_entity(eid);
         penetrate = true;
-        destroyed = true;
+        health -= damage;
+        if (health < 0.0001){
+          ecs::destroy_entity(eid);
+        }
       }
     }
   });
@@ -64,31 +67,27 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag mainHero) hero_collision_detection(
   QUERY(ecs::Tag colidable) check_all_colisions([&](
     const Transform2D &transform,
     vec2 &velocity,
-    bool &destroyed,
     const float mass
   )
   {
-    if (!destroyed)
+    float targetRadius = transform.scale.x * 0.5f;
+    vec2 targetPosition = transform.position;
+    float dist = length(targetPosition - heroPosition);
+    if (dist < targetRadius + heroRadius)
     {
-      float targetRadius = transform.scale.x * 0.5f;
-      vec2 targetPosition = transform.position;
-      float dist = length(targetPosition - heroPosition);
-      if (dist < targetRadius + heroRadius)
-      {
-        struct DamageHero event = DamageHero();
-        //event.damage = mass;
-        event.damage = mass * 0.5;
-        ecs::send_event<DamageHero>(event);
-        float x_imp = heroMass * vel[0] + mass * velocity[0];
-        float y_imp = heroMass * vel[1] + mass * velocity[1];
-        //вычисляем новую скорость персонажа
-        vel[0] = ((velocity[0] * 2) + (vel[0] * (heroMass / mass - 1.0))) / (heroMass / mass + 1.0);
-        vel[1] = ((velocity[1] * 2) + (vel[1] * (heroMass / mass - 1.0))) / (heroMass / mass + 1.0);
-        //вычисляем новую скорость цели
-        velocity[0] = (x_imp - heroMass * vel[0]) / mass;
-        velocity[1] = (y_imp - heroMass * vel[1]) / mass;
+      struct DamageHero event = DamageHero();
+      //event.damage = mass;
+      event.damage = mass * 0.5;
+      ecs::send_event<DamageHero>(event);
+      float x_imp = heroMass * vel[0] + mass * velocity[0];
+      float y_imp = heroMass * vel[1] + mass * velocity[1];
+      //вычисляем новую скорость персонажа
+      vel[0] = ((velocity[0] * 2) + (vel[0] * (heroMass / mass - 1.0))) / (heroMass / mass + 1.0);
+      vel[1] = ((velocity[1] * 2) + (vel[1] * (heroMass / mass - 1.0))) / (heroMass / mass + 1.0);
+      //вычисляем новую скорость цели
+      velocity[0] = (x_imp - heroMass * vel[0]) / mass;
+      velocity[1] = (y_imp - heroMass * vel[1]) / mass;
 
-      }
     }
   });
   velocity = vel;

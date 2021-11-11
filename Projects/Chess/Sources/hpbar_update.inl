@@ -39,7 +39,7 @@ template<typename Callable> void update_green_hp_bar_length(Callable);
 
 
 EVENT(ecs::Tag mainHero) update_green_hp_bar_points(
-  const ColisionEvent &event,
+  const DamageHero &event,
   float &curHP,
   const float maxHP) 
 { 

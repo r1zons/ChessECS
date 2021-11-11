@@ -4,7 +4,7 @@
 ecs::QueryDescription gather_all_target_colliders_descr("gather_all_target_colliders", {
   {ecs::get_type_description<ecs::EntityId>("eid"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
-  {ecs::get_type_description<bool>("destroyed"), false},
+  {ecs::get_type_description<float>("health"), false},
   {ecs::get_type_description<ecs::Tag>("target"), false}
 });
 
@@ -16,7 +16,7 @@ void gather_all_target_colliders(Callable lambda)
     lambda(
       *begin.get_component<ecs::EntityId>(0),
       *begin.get_component<Transform2D>(1),
-      *begin.get_component<bool>(2)
+      *begin.get_component<float>(2)
     );
   }
 }
@@ -25,7 +25,6 @@ void gather_all_target_colliders(Callable lambda)
 ecs::QueryDescription check_all_colisions_descr("check_all_colisions", {
   {ecs::get_type_description<Transform2D>("transform"), false},
   {ecs::get_type_description<vec2>("velocity"), false},
-  {ecs::get_type_description<bool>("destroyed"), false},
   {ecs::get_type_description<float>("mass"), false},
   {ecs::get_type_description<ecs::Tag>("colidable"), false}
 });
@@ -38,8 +37,7 @@ void check_all_colisions(Callable lambda)
     lambda(
       *begin.get_component<Transform2D>(0),
       *begin.get_component<vec2>(1),
-      *begin.get_component<bool>(2),
-      *begin.get_component<float>(3)
+      *begin.get_component<float>(2)
     );
   }
 }
@@ -71,6 +69,7 @@ void bullet_collision_detection_func();
 ecs::SystemDescription bullet_collision_detection_descr("bullet_collision_detection", {
   {ecs::get_type_description<ecs::EntityId>("eid"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
+  {ecs::get_type_description<float>("damage"), false},
   {ecs::get_type_description<ecs::Tag>("bullet"), false}
 }, bullet_collision_detection_func, ecs::SystemOrder::LOGIC, (uint)(ecs::SystemTag::Game));
 
@@ -80,7 +79,8 @@ void bullet_collision_detection_func()
   {
     bullet_collision_detection(
       *begin.get_component<ecs::EntityId>(0),
-      *begin.get_component<Transform2D>(1)
+      *begin.get_component<Transform2D>(1),
+      *begin.get_component<float>(2)
     );
   }
 }
