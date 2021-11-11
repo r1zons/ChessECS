@@ -27,3 +27,7 @@ struct ScoreBoard : ecs::Singleton
   int curentLevel;
   std::vector<int> kills;
 };
+
+
+
+void create_bullet(vec2 position, float rotation, float bulletVelocity, const Sprite &bulletSpite, bool friebdly);

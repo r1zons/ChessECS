@@ -51,6 +51,37 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
     ecs::destroy_entity(eid);
 }
 
+template<typename Callable> void gather_hero_info(Callable);
+
+SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy_bullet) enemy_bullet_collision_detection(
+  ecs::EntityId eid,
+  const Transform2D &transform,
+  const float damage
+)
+{
+  vec2 bulletPosition = transform.position;
+  float bulletRadius = transform.scale.x * 0.5f;
+  bool penetrate = false;
+  QUERY(ecs::Tag mainHero) gather_hero_info([&](
+    const Transform2D &transform)
+  {
+    vec2 targetPosition = transform.position;
+    float targetRadius = transform.scale.x * 0.5f;
+    float dist = length(targetPosition - bulletPosition);
+    if (dist < bulletRadius + targetRadius)
+    {
+      struct DamageHero event = DamageHero();
+      //event.damage = mass;
+      event.damage = damage;
+      ecs::send_event<DamageHero>(event);
+      penetrate = true;
+    }
+  });
+  if (penetrate)
+    ecs::destroy_entity(eid);
+}
+
+
 
 template<typename Callable> void check_all_colisions(Callable);
 

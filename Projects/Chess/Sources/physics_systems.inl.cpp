@@ -22,6 +22,23 @@ void gather_all_target_colliders(Callable lambda)
 }
 
 
+ecs::QueryDescription gather_hero_info_descr("gather_hero_info", {
+  {ecs::get_type_description<Transform2D>("transform"), false},
+  {ecs::get_type_description<ecs::Tag>("mainHero"), false}
+});
+
+template<typename Callable>
+void gather_hero_info(Callable lambda)
+{
+  for (ecs::QueryIterator begin = gather_hero_info_descr.begin(), end = gather_hero_info_descr.end(); begin != end; ++begin)
+  {
+    lambda(
+      *begin.get_component<Transform2D>(0)
+    );
+  }
+}
+
+
 ecs::QueryDescription check_all_colisions_descr("check_all_colisions", {
   {ecs::get_type_description<Transform2D>("transform"), false},
   {ecs::get_type_description<vec2>("velocity"), false},
@@ -78,6 +95,28 @@ void bullet_collision_detection_func()
   for (ecs::QueryIterator begin = bullet_collision_detection_descr.begin(), end = bullet_collision_detection_descr.end(); begin != end; ++begin)
   {
     bullet_collision_detection(
+      *begin.get_component<ecs::EntityId>(0),
+      *begin.get_component<Transform2D>(1),
+      *begin.get_component<float>(2)
+    );
+  }
+}
+
+
+void enemy_bullet_collision_detection_func();
+
+ecs::SystemDescription enemy_bullet_collision_detection_descr("enemy_bullet_collision_detection", {
+  {ecs::get_type_description<ecs::EntityId>("eid"), false},
+  {ecs::get_type_description<Transform2D>("transform"), false},
+  {ecs::get_type_description<float>("damage"), false},
+  {ecs::get_type_description<ecs::Tag>("enemy_bullet"), false}
+}, enemy_bullet_collision_detection_func, ecs::SystemOrder::LOGIC, (uint)(ecs::SystemTag::Game));
+
+void enemy_bullet_collision_detection_func()
+{
+  for (ecs::QueryIterator begin = enemy_bullet_collision_detection_descr.begin(), end = enemy_bullet_collision_detection_descr.end(); begin != end; ++begin)
+  {
+    enemy_bullet_collision_detection(
       *begin.get_component<ecs::EntityId>(0),
       *begin.get_component<Transform2D>(1),
       *begin.get_component<float>(2)
