@@ -4,7 +4,7 @@
             "name": "Windows",
             "includePath": [
                 "${workspaceFolder}/Projects/Common/**",
-                "${workspaceFolder}/Projects/Chess/**",
+                "${workspaceFolder}/Projects/Chess/**"
             ],
             "defines": [],
             "cStandard": "c17",

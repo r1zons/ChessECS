@@ -15,6 +15,22 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   float ratioForGreenHP = mainHeroStartHP / mainHeroMaxHP; 
 
 
+  for (int i = -5; i < 6; ++i) {
+    for (int j = -5; j < 6; ++j) {
+      ecs::create_entity<Sprite, Transform2D>(
+        {"sprite", sf.background},
+        {"transform", Transform2D(vec2(i * 80.f, j * 80.f), vec2(40.f))}
+      );
+    }
+  }
+
+
+      // ecs::create_entity<Sprite, Transform2D>(
+      //   {"sprite", sf.background},
+      //   {"transform", Transform2D(vec2(0.f), vec2(40.f))}
+      // );
+
+
   for (int i = 0; i < targetCount; i++)
   {
     Transform2D tr = Transform2D(normalize(rand_vec2()) * rand_float(safeZone, areaRadius),
@@ -26,7 +42,8 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
       {"transform", tr},
       {"velocity", rand_vec2()},
       {"rotationVelocity", rand_float()*PI},
-      {"color", vec4(rand_vec3(0.f, 1.f), 1)},
+      // {"color", vec4(rand_vec3(0.f, 1.f), 1)},
+      {"color", {1,1,1,1}},
       {"curHP", 10.f},
       {"mass", m},
       {"target", {}},
@@ -92,9 +109,5 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"healthBarEIDr", 0}
   );
 
-  ecs::create_entity<Sprite, Transform2D>(
-    {"sprite", sf.background},
-    {"transform", Transform2D(vec2(0.f), vec2(1.f))}
-  );
   
 }

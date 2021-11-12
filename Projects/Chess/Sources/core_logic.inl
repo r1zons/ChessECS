@@ -45,7 +45,7 @@ void create_bullet(vec2 position, float rotation, float bulletVelocity, const Sp
   if (friebdly){
     ecs::create_entity<Sprite, Transform2D, vec2, float, float, ecs::Tag, float>(
       {"sprite", bulletSpite},
-      {"transform", Transform2D(position, vec2(0.5f), -rotation)},
+      {"transform", Transform2D(position, vec2(0.8f), -rotation)},
       {"velocity", velocity * bulletVelocity},
       {"creationTime", curTime},
       {"lifeTime", bulletLifeTime},
@@ -55,7 +55,7 @@ void create_bullet(vec2 position, float rotation, float bulletVelocity, const Sp
   } else {
     ecs::create_entity<Sprite, Transform2D, vec2, float, float, ecs::Tag, float>(
       {"sprite", bulletSpite},
-      {"transform", Transform2D(position, vec2(0.5f), -rotation)},
+      {"transform", Transform2D(position, vec2(0.8f), -rotation)},
       {"velocity", velocity * bulletVelocity},
       {"creationTime", curTime},
       {"lifeTime", bulletLifeTime},
