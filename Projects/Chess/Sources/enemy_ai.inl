@@ -24,9 +24,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) path_finder(
     angle = transform.rotation;
   });
   vec2 dir = vec2(cos(angle), -sin(angle));
-  debug_log("dir: %f %f", dir[0], dir[1]);
   dir = ((dir + vel) / -2.0f) * 10.0f;
-  debug_log("target place: %f %f", dir[0], dir[1]);
   vec2 target_point = dir + pos;
   if (length(target_point - transform.position) > 1.0f & length(pos - transform.position) > 10.0f){
     velocity = normalize(target_point - transform.position);
@@ -37,6 +35,10 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) path_finder(
 }
 
 
+
+
+
+//обновить учитывая упреждение
 
 template<typename Callable> void get_info1(Callable);
 
@@ -57,7 +59,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) shoot(
     pos = transform.position;
     angle = transform.rotation;
   });
-  transform.rotation = acos(normalize(pos - transform.position)[0]) * sign(normalize(pos - transform.position)[1]);
+  transform.rotation = -acos(normalize(pos - transform.position)[0]) * sign(normalize(pos - transform.position)[1]);
   if (timeSh > 0.5){
     create_bullet(transform.position, transform.rotation, 8, sf.shot6_1, false);
     timeSh = 0.0f;
