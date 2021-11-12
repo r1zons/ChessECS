@@ -21,16 +21,18 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
                                 vec2(rand_float(minSize, maxSize)),
                                 rand_float() * PITWO);
     float m = tr.scale[0] * tr.scale[1] * density;
-    ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, float, float, ecs::Tag, ecs::Tag>(
+    ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, float, float, ecs::Tag, ecs::Tag, ecs::EntityId, ecs::EntityId>(
       {"sprite", sf.asteroids[rand_int(AsteroidsCount)]},
       {"transform", tr},
       {"velocity", rand_vec2()},
       {"rotationVelocity", rand_float()*PI},
       {"color", vec4(rand_vec3(0.f, 1.f), 1)},
-      {"health", 10.f},
+      {"curHP", 10.f},
       {"mass", m},
       {"target", {}},
-      {"colidable", {}}
+      {"colidable", {}},
+      {"healthBarEIDg", 0},
+      {"healthBarEIDr", 0}
     );
   }
 
@@ -67,7 +69,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"greenHPBar", {}}
   );
 
-  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, int, ecs::Tag, ecs::Tag, ecs::Tag, float, float, float, float, float, float>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, int, ecs::Tag, ecs::Tag, ecs::Tag, float, float, float, float, float, float, float, ecs::EntityId, ecs::EntityId>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(25,0), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -83,8 +85,11 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"strafeAccel", 20.0},
     {"inertiaCancel", 50.0},
     {"mass", 5.0},
-    {"health", 30.0f},
-    {"timeSh", 0.0f}
+    {"curHP", 30.0f},
+    {"maxHP", 30.0f},
+    {"timeSh", 0.0f},
+    {"healthBarEIDg", 0},
+    {"healthBarEIDr", 0}
   );
 
   ecs::create_entity<Sprite, Transform2D>(

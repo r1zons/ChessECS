@@ -13,6 +13,13 @@ struct DamageHero{
   float damage;
 };
 
+struct ShowBar{
+  ecs::EntityId peid;
+  float damage;
+};
+
+
+
 constexpr int FigureCount = 6;
 constexpr int AsteroidsCount = 4;
 struct SpriteFactory : ecs::Singleton

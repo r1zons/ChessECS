@@ -4,7 +4,9 @@
 ecs::QueryDescription gather_all_target_colliders_descr("gather_all_target_colliders", {
   {ecs::get_type_description<ecs::EntityId>("eid"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
-  {ecs::get_type_description<float>("health"), false},
+  {ecs::get_type_description<float>("curHP"), false},
+  {ecs::get_type_description<ecs::EntityId>("healthBarEIDg"), false},
+  {ecs::get_type_description<ecs::EntityId>("healthBarEIDr"), false},
   {ecs::get_type_description<ecs::Tag>("target"), false}
 });
 
@@ -16,7 +18,9 @@ void gather_all_target_colliders(Callable lambda)
     lambda(
       *begin.get_component<ecs::EntityId>(0),
       *begin.get_component<Transform2D>(1),
-      *begin.get_component<float>(2)
+      *begin.get_component<float>(2),
+      *begin.get_component<ecs::EntityId>(3),
+      *begin.get_component<ecs::EntityId>(4)
     );
   }
 }
