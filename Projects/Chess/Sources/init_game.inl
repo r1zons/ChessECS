@@ -86,4 +86,10 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"health", 30.0f},
     {"timeSh", 0.0f}
   );
+
+  ecs::create_entity<Sprite, Transform2D>(
+    {"sprite", sf.background},
+    {"transform", Transform2D(vec2(0.f), vec2(1.f))}
+  );
+  
 }

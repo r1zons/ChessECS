@@ -34,7 +34,9 @@ EVENT() init_sprites_shaders_camera(
   // white hp_bar tex
     Texture2D *whiteHPTex = 
     wr.add_texture(new Texture2D(project_resources_path("hp_bar.png"), RGBA));
-
+  // background
+    Texture2D *backgroundTex = 
+    wr.add_texture(new Texture2D(project_resources_path("purple_sample.png"), RGBA));
   
   float figureWidth = 1.f/FigureCount, figureHeight =  1.f/2.f;
   vec2 figureSize(figureWidth, figureHeight);
@@ -53,6 +55,7 @@ EVENT() init_sprites_shaders_camera(
   sf.ship6 = Sprite(ship6Tex);
   sf.shot6_1 = Sprite(shot6_1Tex);
   sf.hp_bar = Sprite(whiteHPTex);
+  sf.background = Sprite(backgroundTex);
 
   wr.spriteShader = get_shader("standart_sprite");
   
