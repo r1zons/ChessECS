@@ -59,7 +59,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) shoot(
     pos = transform.position;
     angle = transform.rotation;
   });
-  transform.rotation = -acos(normalize(pos - transform.position)[0]) * sign(normalize(pos - transform.position)[1]);
+  transform.rotation = acos(normalize(pos - transform.position)[0]) * sign(normalize(pos - transform.position)[1]);
   if (timeSh > 0.5){
     create_bullet(transform.position, transform.rotation, 8, sf.shot6_1, false);
     timeSh = 0.0f;

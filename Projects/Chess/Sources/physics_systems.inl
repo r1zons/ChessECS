@@ -29,26 +29,37 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
   QUERY(ecs::Tag target) gather_all_target_colliders([&](
     ecs::EntityId eid,
     const Transform2D &transform,
-    float &health)
+    float &curHP,
+    ecs::EntityId &healthBarEIDg,
+    ecs::EntityId &healthBarEIDr)
   {
-    if (health > 0.0001)
+    if (curHP > 0.0001)
     {
       vec2 targetPosition = transform.position;
       float targetRadius = transform.scale.x * 0.5f;
       float dist = length(targetPosition - bulletPosition);
       if (dist < bulletRadius + targetRadius)
       {
-        ecs::send_event<KillTargetEvent>(KillTargetEvent());
         penetrate = true;
-        health -= damage;
-        if (health < 0.0001){
+        if (curHP - damage < 0.0001){
           ecs::destroy_entity(eid);
+          if (healthBarEIDg){
+            ecs::destroy_entity(healthBarEIDg);
+            ecs::destroy_entity(healthBarEIDr);
+          }
+          ecs::send_event<KillTargetEvent>(KillTargetEvent());
+        } else {
+          struct ShowBar event = ShowBar();
+          event.peid = eid;
+          event.damage = damage;
+          ecs::send_event<ShowBar>(event);
         }
       }
     }
   });
   if (penetrate)
     ecs::destroy_entity(eid);
+    
 }
 
 template<typename Callable> void gather_hero_info(Callable);
