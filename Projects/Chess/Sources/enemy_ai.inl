@@ -4,8 +4,6 @@
 #include "game_structs.h"
 
 
-
-
 template<typename Callable> void get_info(Callable);
 
 SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) path_finder(

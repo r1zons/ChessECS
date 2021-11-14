@@ -7,7 +7,7 @@
 #include <Application/application_data.h>
 #include <Engine/input.h>
 #include "game_structs.h"
-// #include <dos.h>
+
 
 template<typename Callable> void update_red_hp_bar_position(Callable);
 
@@ -42,11 +42,13 @@ template<typename Callable> void update_green_hp_bar_length(Callable);
 EVENT(ecs::Tag mainHero) update_green_hp_bar_points(
   const DamageHero &event,
   float &curHP,
+  float &lifespan,
   bool &lost,
   const float maxHP) 
 { 
   debug_log("%f %f", event.damage, curHP);
   float oldHP = curHP;
+  lifespan = 0.5;
   curHP = curHP - event.damage >= 0.f ? curHP - event.damage : 0.f;
   if (curHP == 0.f) {
     // завершение уровня
@@ -57,7 +59,6 @@ EVENT(ecs::Tag mainHero) update_green_hp_bar_points(
     transform.scale[0] = transform.scale[0] * (maxHP / oldHP) * (curHP / maxHP); 
   });
 }
-
 
 
 template<typename Callable> void get_data(const ecs::EntityId&, Callable);
@@ -115,6 +116,21 @@ EVENT() create_bar(
       }
     });
 }
+
+
+SYSTEM(ecs::SystemOrder::RENDER, ecs::Tag mainHero) reddingWhenHit(
+  vec4 &color,
+  float &lifespan)
+{
+  if (lifespan < 0.0001){
+    color = {1, 1, 1, 1};
+  } else {
+    lifespan -= Time::delta_time();
+    color = {1, 0, 0, 1};
+  }
+}
+
+
 
 template<typename Callable> void get_pr_data(const ecs::EntityId&, Callable);
 

@@ -26,11 +26,11 @@ SYSTEM(ecs::SystemOrder::RENDER) render_scene(
     const Transform2D &transform,
     const vec4 *color)
   {
-    // //culling
-    // vec2 minPos = viewProjection * vec3(transform.position - transform.scale * 0.5f, 1);
-    // vec2 maxPos = viewProjection * vec3(transform.position + transform.scale * 0.5f, 1);
-    // if (1.f < minPos.x || 1.f < minPos.y || maxPos.x < -1.f || maxPos.y < -1.f)
-    //   return;
+    //culling
+    vec2 minPos = viewProjection * vec3(transform.position - transform.scale * 0.5f, 1);
+    vec2 maxPos = viewProjection * vec3(transform.position + transform.scale * 0.5f, 1);
+    if (2.f < minPos.x || 2.f < minPos.y || maxPos.x < -2.f || maxPos.y < -2.f)
+      return;
 
     if (sprite.texture)
     {

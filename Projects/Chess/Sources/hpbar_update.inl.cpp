@@ -183,6 +183,26 @@ void update_green_hp_bar_func()
 }
 
 
+void reddingWhenHit_func();
+
+ecs::SystemDescription reddingWhenHit_descr("reddingWhenHit", {
+  {ecs::get_type_description<vec4>("color"), false},
+  {ecs::get_type_description<float>("lifespan"), false},
+  {ecs::get_type_description<ecs::Tag>("mainHero"), false}
+}, reddingWhenHit_func, ecs::SystemOrder::RENDER, (uint)(ecs::SystemTag::Game));
+
+void reddingWhenHit_func()
+{
+  for (ecs::QueryIterator begin = reddingWhenHit_descr.begin(), end = reddingWhenHit_descr.end(); begin != end; ++begin)
+  {
+    reddingWhenHit(
+      *begin.get_component<vec4>(0),
+      *begin.get_component<float>(1)
+    );
+  }
+}
+
+
 void update_red_bars_func();
 
 ecs::SystemDescription update_red_bars_descr("update_red_bars", {
@@ -235,6 +255,7 @@ void update_green_hp_bar_points_handler(const DamageHero &event);
 
 ecs::EventDescription<DamageHero> update_green_hp_bar_points_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
+  {ecs::get_type_description<float>("lifespan"), false},
   {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<float>("maxHP"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
@@ -247,8 +268,9 @@ void update_green_hp_bar_points_handler(const DamageHero &event)
     update_green_hp_bar_points(
       event,
       *begin.get_component<float>(0),
-      *begin.get_component<bool>(1),
-      *begin.get_component<float>(2)
+      *begin.get_component<float>(1),
+      *begin.get_component<bool>(2),
+      *begin.get_component<float>(3)
     );
   }
 }
@@ -276,6 +298,7 @@ void update_green_hp_bar_points_singl_handler(const DamageHero &event, ecs::Quer
 
 ecs::SingleEventDescription<DamageHero> update_green_hp_bar_points_singl_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
+  {ecs::get_type_description<float>("lifespan"), false},
   {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<float>("maxHP"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
@@ -286,8 +309,9 @@ void update_green_hp_bar_points_singl_handler(const DamageHero &event, ecs::Quer
   update_green_hp_bar_points(
     event,
       *begin.get_component<float>(0),
-      *begin.get_component<bool>(1),
-      *begin.get_component<float>(2)
+      *begin.get_component<float>(1),
+      *begin.get_component<bool>(2),
+      *begin.get_component<float>(3)
   );
 }
 

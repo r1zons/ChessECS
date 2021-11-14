@@ -4,7 +4,7 @@
 
 EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBoard &sb)
 {
-  int targetCount = 100 * (sb.curentLevel + 1);
+  int targetCount = 100 * (sb.curentLevel) + 5;
   srand(time(NULL));
   // int targetCount = 5 * (sb.curentLevel + 1);
   int bkgIndex = rand_int(3) % 3;
@@ -15,9 +15,6 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   float mainHeroMaxHP = 100.0f;
   float mainHeroStartHP = 80.0f;
   float ratioForGreenHP = mainHeroStartHP / mainHeroMaxHP; 
-
-
-
 
   for (int i = -5; i < 6; ++i) {
     for (int j = -5; j < 6; ++j) {
@@ -51,7 +48,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     );
   }
 
-  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, bool, float, float, ecs::Tag, float, float, float, float, float>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, bool, float, float, ecs::Tag, float, float, float, float, float, float>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(0.f), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -67,6 +64,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"linearAccel", 35.0},
     {"strafeAccel", 20.0},
     {"inertiaCancel", 50.0},
+    {"lifespan", 0},
     {"mass", 5.0},
     {"speedLimit", 10.0f}
   );

@@ -33,27 +33,24 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
     ecs::EntityId &healthBarEIDg,
     ecs::EntityId &healthBarEIDr)
   {
-    if (curHP > 0.0001)
+    vec2 targetPosition = transform.position;
+    float targetRadius = transform.scale.x * 0.5f;
+    float dist = length(targetPosition - bulletPosition);
+    if (dist < bulletRadius + targetRadius)
     {
-      vec2 targetPosition = transform.position;
-      float targetRadius = transform.scale.x * 0.5f;
-      float dist = length(targetPosition - bulletPosition);
-      if (dist < bulletRadius + targetRadius)
-      {
-        penetrate = true;
-        if (curHP - damage < 0.0001){
-          ecs::destroy_entity(eid);
-          if (healthBarEIDg){
-            ecs::destroy_entity(healthBarEIDg);
-            ecs::destroy_entity(healthBarEIDr);
-          }
-          ecs::send_event<KillTargetEvent>(KillTargetEvent());
-        } else {
-          struct ShowBar event = ShowBar();
-          event.peid = eid;
-          event.damage = damage;
-          ecs::send_event<ShowBar>(event);
+      penetrate = true;
+      if (curHP - damage < 0.0001){
+        ecs::destroy_entity(eid);
+        if (healthBarEIDg){
+          ecs::destroy_entity(healthBarEIDg);
+          ecs::destroy_entity(healthBarEIDr);
         }
+        ecs::send_event<KillTargetEvent>(KillTargetEvent());
+      } else {
+        struct ShowBar event = ShowBar();
+        event.peid = eid;
+        event.damage = damage;
+        ecs::send_event<ShowBar>(event);
       }
     }
   });
