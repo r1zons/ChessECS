@@ -24,6 +24,7 @@ void start_game_button_func()
 void exit_menu_button_func();
 
 ecs::SystemDescription exit_menu_button_descr("exit_menu_button", {
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<bool>("isWinner"), false},
   {ecs::get_type_description<int>("killsCount"), false},
   {ecs::get_type_description<ScoreBoard>("sb"), false}
@@ -35,8 +36,9 @@ void exit_menu_button_func()
   {
     exit_menu_button(
       *begin.get_component<bool>(0),
-      *begin.get_component<int>(1),
-      *begin.get_component<ScoreBoard>(2)
+      *begin.get_component<bool>(1),
+      *begin.get_component<int>(2),
+      *begin.get_component<ScoreBoard>(3)
     );
   }
 }

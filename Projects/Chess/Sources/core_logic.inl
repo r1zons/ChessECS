@@ -28,8 +28,11 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag target) controll_targets(
 EVENT(ecs::Tag mainHero) look_at_mouse_position_when_mouse_moves(
   const MouseMoveEvent &event,
   const WorldRenderer &wr,
-  Transform2D &transform)
+  Transform2D &transform,
+  bool lost)
 {
+  if (lost) return;
+
   vec2 worldPos = wr.screen_to_world(event.x, event.y);
   vec2 direction = worldPos - transform.position;
   transform.rotation = atan2f(direction.x, direction.y) - PIHALF;
@@ -70,20 +73,25 @@ EVENT(ecs::Tag mainHero) fire_when_mouse_click(
   const WorldRenderer &wr,
   const SpriteFactory &sf,
   const Transform2D &transform,
-  bool isWinner)
+  bool lost)
 {
-  if (event.action != MouseAction::Down || isWinner)
+  if (event.action != MouseAction::Down || lost)
     return;
   vec2 worldPos = wr.screen_to_world(event.x, event.y);
   vec2 direction = worldPos - transform.position;
-  create_bullet(transform.position, atan2f(direction.y, direction.x), 25, sf.shot_green, true);
+  create_bullet(transform.position, atan2f(direction.y, direction.x), 40, sf.shot_green, true);
 }
 
 EVENT(ecs::Tag mainHero) circle_attack(
   const KeyDownEvent<SDLK_SPACE> &,
   const Transform2D &transform,
-  const SpriteFactory &sf)
+  const SpriteFactory &sf,
+  bool lost)
 {
+  if (lost) {
+    return;
+  }
+
   for (float angle = 0; angle < PITWO; angle += PITWO / 6)
   {
     create_bullet(transform.position, -transform.rotation + angle, 8, sf.shot_purp, true);
@@ -107,10 +115,12 @@ SYSTEM(ecs::SystemOrder::NO_ORDER, ecs::Tag mainHero) get_accel_from_keyboard(
   vec2 &accel,
   float linearAccel,
   float strafeAccel,
-  bool isWinner)
+  bool lost)
 {
-  if (isWinner)
+  if (lost) {
+    accel = vec2(0.f);
     return;
+  }
   //вичисляет ускорение с клавиатуры 
   accel = glm::rotate(
      vec2((Input::get_key(SDLK_w, 0.0) - Input::get_key(SDLK_s, 0.0)) * linearAccel,

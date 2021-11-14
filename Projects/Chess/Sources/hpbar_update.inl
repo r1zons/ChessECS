@@ -7,6 +7,7 @@
 #include <Application/application_data.h>
 #include <Engine/input.h>
 #include "game_structs.h"
+// #include <dos.h>
 
 template<typename Callable> void update_red_hp_bar_position(Callable);
 
@@ -41,11 +42,16 @@ template<typename Callable> void update_green_hp_bar_length(Callable);
 EVENT(ecs::Tag mainHero) update_green_hp_bar_points(
   const DamageHero &event,
   float &curHP,
+  bool &lost,
   const float maxHP) 
 { 
   debug_log("%f %f", event.damage, curHP);
   float oldHP = curHP;
-  curHP = (curHP - event.damage) > 0.f ? curHP - event.damage : 0.f;
+  curHP = curHP - event.damage >= 0.f ? curHP - event.damage : 0.f;
+  if (curHP == 0.f) {
+    // завершение уровня
+    lost = true;
+  }
   QUERY(ecs::Tag greenHPBar) update_green_hp_bar_length([&](Transform2D &transform)
   {
     transform.scale[0] = transform.scale[0] * (maxHP / oldHP) * (curHP / maxHP); 

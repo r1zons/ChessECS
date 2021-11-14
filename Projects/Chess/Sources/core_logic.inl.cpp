@@ -50,7 +50,7 @@ ecs::SystemDescription get_accel_from_keyboard_descr("get_accel_from_keyboard", 
   {ecs::get_type_description<vec2>("accel"), false},
   {ecs::get_type_description<float>("linearAccel"), false},
   {ecs::get_type_description<float>("strafeAccel"), false},
-  {ecs::get_type_description<bool>("isWinner"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, get_accel_from_keyboard_func, ecs::SystemOrder::NO_ORDER, (uint)(ecs::SystemTag::Game));
 
@@ -74,6 +74,7 @@ void look_at_mouse_position_when_mouse_moves_handler(const MouseMoveEvent &event
 ecs::EventDescription<MouseMoveEvent> look_at_mouse_position_when_mouse_moves_descr("look_at_mouse_position_when_mouse_moves", {
   {ecs::get_type_description<WorldRenderer>("wr"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, look_at_mouse_position_when_mouse_moves_handler, (uint)(ecs::SystemTag::Game));
 
@@ -84,7 +85,8 @@ void look_at_mouse_position_when_mouse_moves_handler(const MouseMoveEvent &event
     look_at_mouse_position_when_mouse_moves(
       event,
       *begin.get_component<WorldRenderer>(0),
-      *begin.get_component<Transform2D>(1)
+      *begin.get_component<Transform2D>(1),
+      *begin.get_component<bool>(2)
     );
   }
 }
@@ -96,7 +98,7 @@ ecs::EventDescription<MouseClickEvent<MouseButton::LeftButton>> fire_when_mouse_
   {ecs::get_type_description<WorldRenderer>("wr"), false},
   {ecs::get_type_description<SpriteFactory>("sf"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
-  {ecs::get_type_description<bool>("isWinner"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, fire_when_mouse_click_handler, (uint)(ecs::SystemTag::Game));
 
@@ -120,6 +122,7 @@ void circle_attack_handler(const KeyDownEvent<SDLK_SPACE> &event);
 ecs::EventDescription<KeyDownEvent<SDLK_SPACE>> circle_attack_descr("circle_attack", {
   {ecs::get_type_description<Transform2D>("transform"), false},
   {ecs::get_type_description<SpriteFactory>("sf"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, circle_attack_handler, (uint)(ecs::SystemTag::Game));
 
@@ -130,7 +133,8 @@ void circle_attack_handler(const KeyDownEvent<SDLK_SPACE> &event)
     circle_attack(
       event,
       *begin.get_component<Transform2D>(0),
-      *begin.get_component<SpriteFactory>(1)
+      *begin.get_component<SpriteFactory>(1),
+      *begin.get_component<bool>(2)
     );
   }
 }
@@ -141,6 +145,7 @@ void look_at_mouse_position_when_mouse_moves_singl_handler(const MouseMoveEvent 
 ecs::SingleEventDescription<MouseMoveEvent> look_at_mouse_position_when_mouse_moves_singl_descr("look_at_mouse_position_when_mouse_moves", {
   {ecs::get_type_description<WorldRenderer>("wr"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, look_at_mouse_position_when_mouse_moves_singl_handler, (uint)(ecs::SystemTag::Game));
 
@@ -149,7 +154,8 @@ void look_at_mouse_position_when_mouse_moves_singl_handler(const MouseMoveEvent 
   look_at_mouse_position_when_mouse_moves(
     event,
       *begin.get_component<WorldRenderer>(0),
-      *begin.get_component<Transform2D>(1)
+      *begin.get_component<Transform2D>(1),
+      *begin.get_component<bool>(2)
   );
 }
 
@@ -160,7 +166,7 @@ ecs::SingleEventDescription<MouseClickEvent<MouseButton::LeftButton>> fire_when_
   {ecs::get_type_description<WorldRenderer>("wr"), false},
   {ecs::get_type_description<SpriteFactory>("sf"), false},
   {ecs::get_type_description<Transform2D>("transform"), false},
-  {ecs::get_type_description<bool>("isWinner"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, fire_when_mouse_click_singl_handler, (uint)(ecs::SystemTag::Game));
 
@@ -181,6 +187,7 @@ void circle_attack_singl_handler(const KeyDownEvent<SDLK_SPACE> &event, ecs::Que
 ecs::SingleEventDescription<KeyDownEvent<SDLK_SPACE>> circle_attack_singl_descr("circle_attack", {
   {ecs::get_type_description<Transform2D>("transform"), false},
   {ecs::get_type_description<SpriteFactory>("sf"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, circle_attack_singl_handler, (uint)(ecs::SystemTag::Game));
 
@@ -189,7 +196,8 @@ void circle_attack_singl_handler(const KeyDownEvent<SDLK_SPACE> &event, ecs::Que
   circle_attack(
     event,
       *begin.get_component<Transform2D>(0),
-      *begin.get_component<SpriteFactory>(1)
+      *begin.get_component<SpriteFactory>(1),
+      *begin.get_component<bool>(2)
   );
 }
 

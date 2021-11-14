@@ -41,7 +41,7 @@ SYSTEM(ecs::SystemOrder::UI, ecs::Tag startGameButton) start_game_button(ecs::En
 }
 
 
-SYSTEM(ecs::SystemOrder::UI) exit_menu_button(bool isWinner, int killsCount, ScoreBoard &sb)
+SYSTEM(ecs::SystemOrder::UI) exit_menu_button(bool lost, bool isWinner, int killsCount, ScoreBoard &sb)
 {
   if (isWinner && ImGui::Begin("Result"))
   {
@@ -51,6 +51,16 @@ SYSTEM(ecs::SystemOrder::UI) exit_menu_button(bool isWinner, int killsCount, Sco
       ecs::destroy_scene();
       ecs::send_event<StartMenuEvent>(StartMenuEvent());
       sb.curentLevel++;
+      sb.kills.push_back(killsCount);
+    }
+    ImGui::End();
+  } else if (lost && ImGui::Begin("Result")) 
+  {
+    ImGui::Text("Better luck next time");
+    if (ImGui::Button("Exit menu"))
+    {
+      ecs::destroy_scene();
+      ecs::send_event<StartMenuEvent>(StartMenuEvent());
       sb.kills.push_back(killsCount);
     }
     ImGui::End();

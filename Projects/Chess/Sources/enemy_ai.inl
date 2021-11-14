@@ -35,9 +35,6 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) path_finder(
 }
 
 
-
-
-
 //обновить учитывая упреждение
 
 template<typename Callable> void get_info1(Callable);
@@ -61,7 +58,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) shoot(
   });
   transform.rotation = acos(normalize(pos - transform.position)[0]) * sign(normalize(pos - transform.position)[1]);
   if (timeSh > 0.5){
-    create_bullet(transform.position, transform.rotation, 8, sf.shot_red, false);
+    create_bullet(transform.position, transform.rotation, 40, sf.shot_red, false);
     timeSh = 0.0f;
   } else {
     timeSh += Time::delta_time();

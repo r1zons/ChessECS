@@ -4,9 +4,9 @@
 
 EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBoard &sb)
 {
-  // int targetCount = 100 * (sb.curentLevel + 1);
+  int targetCount = 100 * (sb.curentLevel + 1);
   srand(time(NULL));
-  int targetCount = 5 * (sb.curentLevel + 1);
+  // int targetCount = 5 * (sb.curentLevel + 1);
   int bkgIndex = rand_int(3) % 3;
   float areaRadius = 25.f;
   float safeZone = 5.f;
@@ -28,37 +28,21 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     }
   }
 
-
-  // for (int i = -5; i < 6; ++i) {
-  //   for (int j = -5; j < 6; ++j) {
-  //     ecs::create_entity<Sprite, Transform2D>(
-  //       {"sprite", sf.background},
-  //       {"transform", Transform2D(vec2(i * 80.f, j * 80.f), vec2(40.f))}
-  //     );
-  //   }
-  // }
-
-
-      // ecs::create_entity<Sprite, Transform2D>(
-      //   {"sprite", sf.background},
-      //   {"transform", Transform2D(vec2(0.f), vec2(40.f))}
-      // );
-
-
   for (int i = 0; i < targetCount; i++)
   {
     Transform2D tr = Transform2D(normalize(rand_vec2()) * rand_float(safeZone, areaRadius),
                                 vec2(rand_float(minSize, maxSize)),
                                 rand_float() * PITWO);
     float m = tr.scale[0] * tr.scale[1] * density;
-    ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, float, float, ecs::Tag, ecs::Tag, ecs::EntityId, ecs::EntityId>(
+    ecs::create_entity<Sprite, Transform2D, vec2, float, vec4, float, float, float, ecs::Tag, ecs::Tag, ecs::EntityId, ecs::EntityId>(
       {"sprite", sf.asteroids[rand_int(AsteroidsCount)]},
       {"transform", tr},
       {"velocity", rand_vec2()},
       {"rotationVelocity", rand_float()*PI},
       // {"color", vec4(rand_vec3(0.f, 1.f), 1)},
       {"color", {1,1,1,1}},
-      {"curHP", 10.f},
+      {"maxHP", 19.f},
+      {"curHP", 19.f},
       {"mass", m},
       {"target", {}},
       {"colidable", {}},
@@ -67,7 +51,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     );
   }
 
-  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, float, float, ecs::Tag, float, float, float, float, float>(
+  ecs::create_entity<Sprite, Transform2D, vec2, vec2, vec4, int, bool, bool, float, float, ecs::Tag, float, float, float, float, float>(
     {"sprite", sf.ship6},
     {"transform", Transform2D(vec2(0.f), vec2(1.f))},
     {"velocity", vec2(0.f)},
@@ -76,6 +60,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"color", {1, 1, 1, 1}},
     {"killsCount", 0},
     {"isWinner", false},
+    {"lost", false},
     {"maxHP", mainHeroMaxHP},
     {"curHP", mainHeroStartHP},
     {"mainHero", {}},
@@ -83,7 +68,7 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
     {"strafeAccel", 20.0},
     {"inertiaCancel", 50.0},
     {"mass", 5.0},
-    {"speedLimit", 50.0f}
+    {"speedLimit", 10.0f}
   );
 
   ecs::create_entity<Sprite, Transform2D, vec4, ecs::Tag>(

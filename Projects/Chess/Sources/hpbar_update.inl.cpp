@@ -235,6 +235,7 @@ void update_green_hp_bar_points_handler(const DamageHero &event);
 
 ecs::EventDescription<DamageHero> update_green_hp_bar_points_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<float>("maxHP"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_green_hp_bar_points_handler, (uint)(ecs::SystemTag::Game));
@@ -246,7 +247,8 @@ void update_green_hp_bar_points_handler(const DamageHero &event)
     update_green_hp_bar_points(
       event,
       *begin.get_component<float>(0),
-      *begin.get_component<float>(1)
+      *begin.get_component<bool>(1),
+      *begin.get_component<float>(2)
     );
   }
 }
@@ -274,6 +276,7 @@ void update_green_hp_bar_points_singl_handler(const DamageHero &event, ecs::Quer
 
 ecs::SingleEventDescription<DamageHero> update_green_hp_bar_points_singl_descr("update_green_hp_bar_points", {
   {ecs::get_type_description<float>("curHP"), false},
+  {ecs::get_type_description<bool>("lost"), false},
   {ecs::get_type_description<float>("maxHP"), false},
   {ecs::get_type_description<ecs::Tag>("mainHero"), false}
 }, update_green_hp_bar_points_singl_handler, (uint)(ecs::SystemTag::Game));
@@ -283,7 +286,8 @@ void update_green_hp_bar_points_singl_handler(const DamageHero &event, ecs::Quer
   update_green_hp_bar_points(
     event,
       *begin.get_component<float>(0),
-      *begin.get_component<float>(1)
+      *begin.get_component<bool>(1),
+      *begin.get_component<float>(2)
   );
 }
 
