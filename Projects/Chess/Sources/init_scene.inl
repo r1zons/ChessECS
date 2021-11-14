@@ -43,8 +43,11 @@ EVENT() init_sprites_shaders_camera(
     wr.add_texture(new Texture2D(project_resources_path("bkg_green.png"), RGBA));
   sf.background = Sprite(backgroundTex);
     
-    // Texture2D *b1 = 
-    // wr.add_texture(new Texture2D(project_resources_path("back_blue.png"), RGBA));
+
+
+  Texture2D *b1 = 
+    wr.add_texture(new Texture2D(project_resources_path("bkg_blue.png"), RGBA));
+  sf.back_blue = Sprite(b1);
 
   Texture2D *b2 = 
     wr.add_texture(new Texture2D(project_resources_path("back_green.png"), RGBA));
@@ -54,10 +57,9 @@ EVENT() init_sprites_shaders_camera(
     wr.add_texture(new Texture2D(project_resources_path("back_purple.png"), RGBA));
   sf.back_purp1 = Sprite(b3);
 
-  // Texture2D *b4 = 
-  //   wr.add_texture(new Texture2D(project_resources_path("back_purple2.png"), RGBA));
-  // sf.back_purp2 = Sprite(b4);
-
+  sf.backs[0] = b1;
+  sf.backs[1] = b2;
+  sf.backs[2] = b3;
 
 
   wr.spriteShader = get_shader("standart_sprite");

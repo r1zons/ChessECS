@@ -22,6 +22,7 @@ constexpr int AsteroidsCount = 4;
 struct SpriteFactory : ecs::Singleton
 {
   Sprite asteroids[AsteroidsCount];
+  Sprite backs[3];
   Sprite ship6, shot6_1, hp_bar, background;
   Sprite back_blue, back_purp1, back_purp2, back_green;
 };

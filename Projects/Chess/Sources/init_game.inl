@@ -5,7 +5,9 @@
 EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBoard &sb)
 {
   // int targetCount = 100 * (sb.curentLevel + 1);
+  srand(time(NULL));
   int targetCount = 5 * (sb.curentLevel + 1);
+  int bkgIndex = rand_int(3) % 3;
   float areaRadius = 25.f;
   float safeZone = 5.f;
   float density = 20.f;
@@ -15,14 +17,26 @@ EVENT() init_game(const StartGameEvent &, const SpriteFactory &sf, const ScoreBo
   float ratioForGreenHP = mainHeroStartHP / mainHeroMaxHP; 
 
 
+
+
   for (int i = -5; i < 6; ++i) {
     for (int j = -5; j < 6; ++j) {
       ecs::create_entity<Sprite, Transform2D>(
-        {"sprite", sf.background},
+        {"sprite", sf.backs[bkgIndex]},
         {"transform", Transform2D(vec2(i * 80.f, j * 80.f), vec2(40.f))}
       );
     }
   }
+
+
+  // for (int i = -5; i < 6; ++i) {
+  //   for (int j = -5; j < 6; ++j) {
+  //     ecs::create_entity<Sprite, Transform2D>(
+  //       {"sprite", sf.background},
+  //       {"transform", Transform2D(vec2(i * 80.f, j * 80.f), vec2(40.f))}
+  //     );
+  //   }
+  // }
 
 
       // ecs::create_entity<Sprite, Transform2D>(
