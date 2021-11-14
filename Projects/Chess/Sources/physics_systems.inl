@@ -40,6 +40,10 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag bullet) bullet_collision_detection(
     {
       penetrate = true;
       if (curHP - damage < 0.0001){
+        struct ShowExp event = ShowExp();
+        event.peid = eid;
+        event.pos = transform.position;
+        ecs::send_event<ShowExp>(event);
         ecs::destroy_entity(eid);
         if (healthBarEIDg){
           ecs::destroy_entity(healthBarEIDg);

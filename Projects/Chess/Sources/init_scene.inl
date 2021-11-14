@@ -4,6 +4,7 @@
 #include <Engine/Render/Shader/shader.h>
 #include <Engine/transform2d.h>
 #include "game_structs.h"
+#include <cstring>
 
 EVENT() init_sprites_shaders_camera(
   const ecs::OnSceneCreated &event,
@@ -32,6 +33,23 @@ EVENT() init_sprites_shaders_camera(
   vec2 asteroidSize(asteroidWidth, asteroidHeight);
   for (int i = 0; i < AsteroidsCount; i++)
     sf.asteroids[i] = Sprite(astersTex, vec2(asteroidWidth*i, 0), asteroidSize);
+
+  // для листа exp1
+  Texture2D *exp1Tex = 
+    wr.add_texture(new Texture2D(project_resources_path("exp_sheet1.png"), RGBA));
+  float expWidth = 1.f/8, expHeight = 1.f;
+  vec2 expSize(expWidth, expHeight);
+  for (int i = 0; i < 8; i++)
+    sf.exp1[i] = Sprite(exp1Tex, vec2(expWidth*i, 0), expSize);
+
+  // Для exp2
+
+  for (int i = 1; i <= 30; i++) {
+    string file_name = (string)"Explosion3/00" + ((i < 10) ? "0" : "") + to_string(i) + ".png";
+    Texture2D *exp2Tex = 
+      wr.add_texture(new Texture2D(project_resources_path(file_name), RGBA));
+    sf.exp2[i - 1] = Sprite(exp2Tex);
+  }
 
   // white hp_bar tex
   Texture2D *whiteHPTex = 
