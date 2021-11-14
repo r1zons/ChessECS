@@ -42,9 +42,7 @@ EVENT() init_sprites_shaders_camera(
   Texture2D *backgroundTex = 
     wr.add_texture(new Texture2D(project_resources_path("bkg_green.png"), RGBA));
   sf.background = Sprite(backgroundTex);
-    
-
-
+      
   Texture2D *b1 = 
     wr.add_texture(new Texture2D(project_resources_path("bkg_blue.png"), RGBA));
   sf.back_blue = Sprite(b1);
@@ -60,6 +58,21 @@ EVENT() init_sprites_shaders_camera(
   sf.backs[0] = b1;
   sf.backs[1] = b2;
   sf.backs[2] = b3;
+
+
+  // bullets
+  Texture2D *s1 = 
+    wr.add_texture(new Texture2D(project_resources_path("neon_purple_shot.png"), RGBA));
+  sf.shot_purp = Sprite(s1);
+
+  Texture2D *s2 = 
+    wr.add_texture(new Texture2D(project_resources_path("neon_green_shot.png"), RGBA));
+  sf.shot_green = Sprite(s2);
+
+  Texture2D *s3 = 
+    wr.add_texture(new Texture2D(project_resources_path("neon_red_shot.png"), RGBA));
+  sf.shot_red = Sprite(s3);
+
 
 
   wr.spriteShader = get_shader("standart_sprite");

@@ -76,7 +76,7 @@ EVENT(ecs::Tag mainHero) fire_when_mouse_click(
     return;
   vec2 worldPos = wr.screen_to_world(event.x, event.y);
   vec2 direction = worldPos - transform.position;
-  create_bullet(transform.position, atan2f(direction.y, direction.x), 25, sf.shot6_1, true);
+  create_bullet(transform.position, atan2f(direction.y, direction.x), 25, sf.shot_green, true);
 }
 
 EVENT(ecs::Tag mainHero) circle_attack(
@@ -86,7 +86,7 @@ EVENT(ecs::Tag mainHero) circle_attack(
 {
   for (float angle = 0; angle < PITWO; angle += PITWO / 6)
   {
-    create_bullet(transform.position, -transform.rotation + angle, 8, sf.shot6_1, true);
+    create_bullet(transform.position, -transform.rotation + angle, 8, sf.shot_purp, true);
   }
 }
 

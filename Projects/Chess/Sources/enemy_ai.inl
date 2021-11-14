@@ -61,7 +61,7 @@ SYSTEM(ecs::SystemOrder::LOGIC, ecs::Tag enemy) shoot(
   });
   transform.rotation = acos(normalize(pos - transform.position)[0]) * sign(normalize(pos - transform.position)[1]);
   if (timeSh > 0.5){
-    create_bullet(transform.position, transform.rotation, 8, sf.shot6_1, false);
+    create_bullet(transform.position, transform.rotation, 8, sf.shot_red, false);
     timeSh = 0.0f;
   } else {
     timeSh += Time::delta_time();
